@@ -30,7 +30,7 @@ function animateCounters() {
   }, 60);
 }
 
-// ─── Email Demo (in card) ───
+// ─── Email Demo (in card) — render once, static
 function initEmailMini() {
   const container = document.getElementById('email-demo');
   if (!container) return;
@@ -39,22 +39,16 @@ function initEmailMini() {
     { sender: 'Amazon', subject: 'Your order has shipped', tag: 'auto', tagText: 'AUTO-ARCHIVED' },
     { sender: 'Client', subject: 'Invoice #4421 attached', tag: 'done', tagText: 'DRAFTED REPLY' },
   ];
-  let idx = 0;
-  function tick() {
-    if (idx >= emails.length) idx = 0;
-    container.innerHTML = '';
-    const e = emails[idx];
+  container.innerHTML = '';
+  emails.forEach(e => {
     const div = document.createElement('div');
     div.className = 'email-line';
     div.innerHTML = `<span class="email-sender">${e.sender}</span><span class="email-subj">${e.subject}</span><span class="email-tag tag-${e.tag}">${e.tagText}</span>`;
     container.appendChild(div);
-    idx++;
-  }
-  tick();
-  setInterval(tick, 2200);
+  });
 }
 
-// ─── Calendar Mini Demo (in card) ───
+// ─── Calendar Mini Demo (in card) — render once, static
 function initCalendarMini() {
   const container = document.getElementById('calendar-demo');
   if (!container) return;
@@ -63,22 +57,16 @@ function initCalendarMini() {
     { t: '2:00', text: 'Lunch with Sarah booked', cls: 'meeting' },
     { t: '4:00', text: 'Flight reminder set', cls: 'personal' },
   ];
-  let idx = 0;
-  function tick() {
-    if (idx >= events.length) idx = 0;
-    container.innerHTML = '';
-    const e = events[idx];
+  container.innerHTML = '';
+  events.forEach(e => {
     const div = document.createElement('div');
     div.className = 'cal-event';
     div.innerHTML = `<span style="color:var(--accent);font-family:var(--mono);min-width:45px">${e.t}</span><span style="color:var(--fg)">${e.text}</span>`;
     container.appendChild(div);
-    idx++;
-  }
-  tick();
-  setInterval(tick, 2500);
+  });
 }
 
-// ─── Agent Spawn Mini Demo ───
+// ─── Agent Spawn Mini Demo (in card) — render once, static
 function initAgentSpawnMini() {
   const container = document.getElementById('agent-spawn-demo');
   if (!container) return;
@@ -88,18 +76,13 @@ function initAgentSpawnMini() {
     'Spawning Writing Agent...',
     'Merging results...',
   ];
-  let idx = 0;
-  function tick() {
-    if (idx >= msgs.length) idx = 0;
-    container.innerHTML = '';
+  container.innerHTML = '';
+  msgs.forEach(m => {
     const div = document.createElement('div');
     div.className = 'agent-node';
-    div.innerHTML = `<span style="color:var(--accent)">⚡</span><span style="color:var(--fg)">${msgs[idx]}</span>`;
+    div.innerHTML = `<span style="color:var(--accent)">⚡</span><span style="color:var(--fg)">${m}</span>`;
     container.appendChild(div);
-    idx++;
-  }
-  tick();
-  setInterval(tick, 1800);
+  });
 }
 
 // ─── Full Calendar Section ───
@@ -143,23 +126,20 @@ function initCalendarSection() {
 
   let logIdx = 0;
   function addLog() {
-    if (logIdx >= logMessages.length) logIdx = 0;
+    if (logIdx >= logMessages.length) return; // stop after all messages shown
     const m = logMessages[logIdx];
     const entry = document.createElement('div');
     entry.className = 'log-entry';
     entry.innerHTML = `<span class="log-time">${m.t}</span> ${m.msg}`;
     log.appendChild(entry);
-    log.scrollTop = log.scrollHeight;
+    // No scrollTop manipulation — let user scroll naturally
     logIdx++;
   }
 
-  // Render events one by one
+  // Render events one by one — ONCE, no loop
   let evtIdx = 0;
   function renderNextEvent() {
-    if (evtIdx >= events.length) {
-      setTimeout(() => { evtIdx = 0; clearEvents(); }, 4000);
-      return;
-    }
+    if (evtIdx >= events.length) return; // done, stay static
     const e = events[evtIdx];
     const col = calBody.querySelector(`.cal-event-col[data-hour="${e.hour}"]`);
     if (col) {
@@ -173,12 +153,7 @@ function initCalendarSection() {
     setTimeout(renderNextEvent, 1400);
   }
 
-  function clearEvents() {
-    calBody.querySelectorAll('.cal-event-block').forEach(b => b.remove());
-    log.innerHTML = '';
-    logIdx = 0;
-    setTimeout(renderNextEvent, 800);
-  }
+  // No clearEvents — events and log stay once rendered
 
   // Intersection trigger — low threshold for tall mobile sections
   const obs = new IntersectionObserver((entries) => {
@@ -263,7 +238,7 @@ function initAgentSwarm() {
     timeline.appendChild(step);
   });
 
-  // Animation sequence
+  // Animation sequence — play once, stay static
   function runSwarm() {
     const allSteps = timeline.querySelectorAll('.timeline-step');
     allSteps.forEach(s => { s.classList.remove('visible', 'done'); });
@@ -271,10 +246,7 @@ function initAgentSwarm() {
 
     let stepIdx = 0;
     function advance() {
-      if (stepIdx >= allSteps.length) {
-        setTimeout(runSwarm, 5000);
-        return;
-      }
+      if (stepIdx >= allSteps.length) return; // done, stay static
       const s = allSteps[stepIdx];
       s.classList.add('visible', 'done');
 
@@ -322,6 +294,8 @@ function initEmailClient() {
 
   function renderEmails() {
     list.innerHTML = '';
+    const finalActions = ['DRAFTED', 'SENT', 'SPAM', 'FLAGGED', 'SENT'];
+    const finalClasses = ['action-delegate', 'action-reply', 'action-spam', 'action-draft', 'action-reply'];
     emails.forEach((e, i) => {
       const item = document.createElement('div');
       item.className = 'email-item';
@@ -332,33 +306,19 @@ function initEmailClient() {
           <div class="email-from">${e.from}</div>
           <div class="email-preview">${e.preview}</div>
         </div>
-        <div class="email-action ${e.aclass}">${e.action}</div>
+        <div class="email-action ${finalClasses[i]}">${finalActions[i]}</div>
       `;
       list.appendChild(item);
     });
   }
 
-  function cycleActions() {
-    const items = list.querySelectorAll('.email-item');
-    items.forEach((item, i) => {
-      const actionEl = item.querySelector('.email-action');
-      if (!actionEl) return;
-      const actions = ['DRAFTED', 'SENT', 'ARCHIVED', 'DONE'];
-      let aidx = 0;
-      setInterval(() => {
-        aidx = (aidx + 1) % actions.length;
-        actionEl.textContent = actions[aidx];
-        actionEl.className = `email-action ${actions[aidx] === 'SENT' ? 'action-reply' : actions[aidx] === 'DONE' ? 'action-draft' : 'action-delegate'}`;
-      }, 3000 + i * 500);
-    });
-  }
-
   renderEmails();
+
+  // No cycleActions — static render, no layout recalc loops
 
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        cycleActions();
         obs.disconnect();
       }
     });
