@@ -166,8 +166,6 @@ function initCalendarSection() {
       const block = document.createElement('div');
       block.className = `cal-event-block ${e.type}`;
       block.textContent = e.text;
-      block.style.top = '0';
-      block.style.height = `${e.dur * 100}%`;
       col.appendChild(block);
     }
     addLog();
@@ -368,33 +366,6 @@ function initEmailClient() {
   obs.observe(document.getElementById('email-section'));
 }
 
-// ─── Glitch Effect ───
-function initGlitch() {
-  const h1 = document.querySelector('.glitch');
-  if (!h1) return;
-  const original = h1.dataset.text;
-  const chars = '!<>-_\\/[]{}—=+*^?#________';
-  let frame = 0;
-  let running = true;
-  const heroObs = new IntersectionObserver((entries) => {
-    running = entries[0].isIntersecting;
-  }, { threshold: 0 });
-  heroObs.observe(document.querySelector('.hero'));
-  function glitch() {
-    if (!running) { requestAnimationFrame(glitch); return; }
-    if (frame % 5 === 0) {
-      const pos = Math.floor(Math.random() * original.length);
-      const char = chars[Math.floor(Math.random() * chars.length)];
-      h1.textContent = original.slice(0, pos) + char + original.slice(pos + 1);
-    } else if (frame % 5 === 2) {
-      h1.textContent = original;
-    }
-    frame++;
-    requestAnimationFrame(glitch);
-  }
-  glitch();
-}
-
 // ─── Initialize ───
 document.addEventListener('DOMContentLoaded', () => {
   initReveal();
@@ -405,5 +376,4 @@ document.addEventListener('DOMContentLoaded', () => {
   initCalendarSection();
   initAgentSwarm();
   initEmailClient();
-  initGlitch();
 });
