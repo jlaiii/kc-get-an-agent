@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KC — Get an AI Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="noise-overlay"></div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="badge">Jay told me to make you this</div>
+      <h1 class="glitch" data-text="KC, Get an Agent.">KC, Get an Agent.</h1>
+      <p class="subtitle">You are doing shit an AI should be doing. Stop wasting your life on email triage and calendar Tetris.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" id="hrs-saved">0</span><span class="stat-label">hrs/week saved</span></div>
+        <div class="stat"><span class="stat-num">∞</span><span class="stat-label">agents spawned</span></div>
+        <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">never sleeps</span></div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>See what you are missing</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- Feature Grid -->
+  <section class="features" id="features">
+    <h2 class="section-title">What an agent does for you</h2>
+    <div class="grid">
+      <div class="feature-card" data-delay="0">
+        <div class="icon">📧</div>
+        <h3>Endless Email</h3>
+        <p>Reads, labels, prioritizes, drafts replies. Your inbox becomes a to-do list that sorts itself. You only touch what matters.</p>
+        <div class="mini-demo" id="email-demo"></div>
+      </div>
+      <div class="feature-card" data-delay="100">
+        <div class="icon">📅</div>
+        <h3>Calendar Surgery</h3>
+        <p>Schedules meetings, finds gaps, reschedules conflicts, books flights, sets reminders. It knows your priorities better than you do.</p>
+        <div class="mini-demo" id="calendar-demo"></div>
+      </div>
+      <div class="feature-card" data-delay="200">
+        <div class="icon">📞</div>
+        <h3>Phone Calls</h3>
+        <p>Makes calls on your behalf. Customer support, appointment confirmations, follow-ups. Listens, responds, takes notes.</p>
+      </div>
+      <div class="feature-card" data-delay="300">
+        <div class="icon">🤖</div>
+        <h3>Spawns Sub-Agents</h3>
+        <p>One agent becomes five. Parallel research, code review, data analysis, content writing — all coordinated and merged back to you.</p>
+        <div class="mini-demo" id="agent-spawn-demo"></div>
+      </div>
+      <div class="feature-card" data-delay="400">
+        <div class="icon">🔧</div>
+        <h3>Code Fixes 24/7</h3>
+        <p>Lives in your repo. Fixes bugs, reviews PRs, updates dependencies, and verifies deployments while you sleep.</p>
+      </div>
+      <div class="feature-card" data-delay="500">
+        <div class="icon">🌐</div>
+        <h3>Web Research</h3>
+        <p>Monitors competitors, tracks prices, reads papers, summarizes news. Delivers briefings tailored to what you actually care about.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Calendar Demo -->
+  <section class="demo-section" id="calendar-section">
+    <div class="demo-header">
+      <span class="live-badge">● LIVE SIMULATION</span>
+      <h2>Calendar That Thinks</h2>
+      <p>Watch how an agent handles a real Thursday</p>
+    </div>
+    <div class="calendar-container">
+      <div class="calendar-sidebar">
+        <div class="sidebar-header">
+          <h4>Agent Status</h4>
+          <span class="status-dot green"></span>
+        </div>
+        <div class="agent-log" id="agent-log">
+          <div class="log-entry">Agent woke up at 6:00 AM</div>
+        </div>
+      </div>
+      <div class="calendar-grid" id="calendar-grid">
+        <div class="cal-header">
+          <div class="cal-nav">
+            <button class="cal-btn">◀</button>
+            <span class="cal-month">May 2026</span>
+            <button class="cal-btn">▶</button>
+          </div>
+          <div class="cal-view-btns">
+            <button class="cal-view active">Day</button>
+            <button class="cal-view">Week</button>
+          </div>
+        </div>
+        <div class="cal-body" id="cal-body">
+          <!-- JS populates this -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Multi-Agent Visualization -->
+  <section class="agents-section" id="agents">
+    <h2 class="section-title">One Request. Five Agents.</h2>
+    <p class="section-subtitle">You say: "Plan my trip to Tokyo." This is what happens.</p>
+    <div class="agent-swarm" id="agent-swarm">
+      <div class="central-node">
+        <div class="node-core">🧠</div>
+        <span>Coordinator</span>
+      </div>
+      <svg class="swarm-lines" id="swarm-svg"></svg>
+      <div class="satellite-nodes">
+        <div class="sat-node" data-role="Flights"><span class="sat-icon">✈️</span><span class="sat-label">Flights</span></div>
+        <div class="sat-node" data-role="Hotels"><span class="sat-icon">🏨</span><span class="sat-label">Hotels</span></div>
+        <div class="sat-node" data-role="Itinerary"><span class="sat-icon">🗺️</span><span class="sat-label">Itinerary</span></div>
+        <div class="sat-node" data-role="Visa"><span class="sat-icon">📋</span><span class="sat-label">Visa</span></div>
+        <div class="sat-node" data-role="Budget"><span class="sat-icon">💰</span><span class="sat-label">Budget</span></div>
+      </div>
+    </div>
+    <div class="swarm-timeline" id="swarm-timeline">
+      <!-- JS populates progress -->
+    </div>
+  </section>
+
+  <!-- Email Triage Demo -->
+  <section class="demo-section alt" id="email-section">
+    <div class="demo-header">
+      <span class="live-badge">● LIVE SIMULATION</span>
+      <h2>Inbox Zero Without Touching It</h2>
+      <p>Every morning, sorted before you wake up</p>
+    </div>
+    <div class="email-client" id="email-client">
+      <div class="email-sidebar">
+        <div class="email-account">KC's Agent</div>
+        <div class="email-folders">
+          <div class="folder active"><span>📥 Inbox</span><span class="count">3</span></div>
+          <div class="folder"><span>⭐ Important</span><span class="count">12</span></div>
+          <div class="folder"><span>🤖 Auto-Handled</span><span class="count">47</span></div>
+          <div class="folder"><span>🗑️ Spam</span><span class="count">23</span></div>
+        </div>
+      </div>
+      <div class="email-list" id="email-list">
+        <!-- JS populates -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="comparison" id="comparison">
+    <h2 class="section-title">With vs Without</h2>
+    <div class="comp-table">
+      <div class="comp-col without">
+        <div class="comp-header">
+          <span class="comp-emoji">😰</span>
+          <h3>Without an Agent</h3>
+        </div>
+        <ul class="comp-list">
+          <li>Wake up to 80 unread emails</li>
+          <li>Manually reschedule every conflict</li>
+          <li>Forget to follow up with clients</li>
+          <li>Spend 2 hours on hold with support</li>
+          <li>Code breaks while you're at dinner</li>
+          <li>Miss price drops and deals</li>
+          <li>Research takes all weekend</li>
+        </ul>
+      </div>
+      <div class="comp-divider">VS</div>
+      <div class="comp-col with">
+        <div class="comp-header">
+          <span class="comp-emoji">😎</span>
+          <h3>With an Agent</h3>
+        </div>
+        <ul class="comp-list">
+          <li>Wake up to a 3-item briefing</li>
+          <li>Calendar self-heals overnight</li>
+          <li>Every follow-up sent on schedule</li>
+          <li>Calls made while you sleep</li>
+          <li>Bugs fixed and verified by morning</li>
+          <li>Deal alerts hit your phone instantly</li>
+          <li>Research summarized in 2 minutes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <h2 class="section-title">Jay's Agent Says</h2>
+    <div class="testimonial-card">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">I built this website in one shot while Jay watched. I created the repo, wrote the HTML, CSS, and JavaScript, pushed to GitHub, enabled Pages, and verified it was live. KC, I did all of this in minutes. Imagine what I'd do for you every single day.</p>
+      <div class="quote-author">
+        <div class="author-avatar">🤖</div>
+        <div class="author-info">
+          <span class="author-name">Hermes Agent</span>
+          <span class="author-role">Jay's 24/7 Employee</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <div class="cta-content">
+      <h2>Stop Being Your Own Assistant</h2>
+      <p>You are not a secretary. You are not a scheduler. You are not a customer support rep.<br>Get an agent and do what you are actually good at.</p>
+      <div class="cta-buttons">
+        <button class="cta-btn primary" onclick="alert('Tell Jay you want in. He will set you up.')">Get an Agent</button>
+        <button class="cta-btn secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">See More</button>
+      </div>
+      <div class="cta-footer">
+        <span>Built by Jay's agent in one go.</span>
+        <a href="https://github.com/jlaiii/kc-get-an-agent" target="_blank">View source on GitHub ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
