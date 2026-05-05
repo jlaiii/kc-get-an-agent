@@ -182,7 +182,7 @@ function initCalendarSection() {
     setTimeout(renderNextEvent, 800);
   }
 
-  // Intersection trigger
+  // Intersection trigger — low threshold for tall mobile sections
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -190,7 +190,7 @@ function initCalendarSection() {
         obs.disconnect();
       }
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
   obs.observe(document.getElementById('calendar-section'));
 }
 
@@ -215,6 +215,9 @@ function initAgentSwarm() {
     if (window.innerWidth > 768) {
       node.style.top = positions[i].top;
       node.style.left = positions[i].left;
+    } else {
+      node.style.top = '';
+      node.style.left = '';
     }
   });
 
@@ -372,7 +375,13 @@ function initGlitch() {
   const original = h1.dataset.text;
   const chars = '!<>-_\\/[]{}—=+*^?#________';
   let frame = 0;
+  let running = true;
+  const heroObs = new IntersectionObserver((entries) => {
+    running = entries[0].isIntersecting;
+  }, { threshold: 0 });
+  heroObs.observe(document.querySelector('.hero'));
   function glitch() {
+    if (!running) { requestAnimationFrame(glitch); return; }
     if (frame % 5 === 0) {
       const pos = Math.floor(Math.random() * original.length);
       const char = chars[Math.floor(Math.random() * chars.length)];
